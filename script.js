@@ -19,6 +19,19 @@ navLinks.forEach((link) => {
   });
 });
 
+// Desde la página principal, "Inicio" vuelve siempre al principio,
+// incluso cuando la URL ya tiene el ancla #inicio.
+const homeNavLink = document.querySelector('.site-nav a[href="#inicio"]');
+homeNavLink?.addEventListener("click", (event) => {
+  event.preventDefault();
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  header?.classList.remove("is-hidden");
+  window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  if (window.location.hash !== "#inicio") {
+    window.history.pushState(null, "", "#inicio");
+  }
+});
+
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
